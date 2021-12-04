@@ -1,0 +1,15 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+ <h1 class = "submitted" action = "{% url 'enterdata:submitted' %}" method ="post" >
+Thanks for submitting some data, {{ user.username }}!
+</h1>
+<h1>
+<div class = "thank-you"> 
+<a href="{% url 'displaydata:displaydata' %}"> Show me some data! </a>
+</div>
+<div class = "thank-you"> 
+<a href="{% url 'enterdata:enterdata' %}"> Submit more data! </a>
+</div>
+</h1>
+{% endblock %}

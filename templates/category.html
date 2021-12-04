@@ -1,0 +1,38 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<header> 
+{% if user.is_authenticated %}
+<h1> Welcome to Ecology Survey, {{ user.username }}! <h1>
+{% else %}
+<h1> Welcome to Ecology Survey! <h1>
+{%endif%}
+</header>
+
+<div class = "welcome-message">
+    <h2>You can collect real bird data and get to see the data on some cool graphs! 
+    <div> Additionally:
+    </div>
+        <li> you will be connected to a real database with data collected by thousands of people around the world </li> 
+        <li> you will help research </li> 
+        <li> you will expand your bird knowledge </li> 
+    </h2>
+</div>
+<div>
+    {% if add %}
+    <ul>
+        {% for category in categories %}
+            <li><a href="{% url 'enterdata:enterdata' category.slug %}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul> 
+    {% endif %}
+    {% if display %}
+    <ul>
+        {% for category in categories %}
+            <li><a href="{% url 'displaydata:displaydata' category.slug %}">{{ category.name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+
+{% endblock %}

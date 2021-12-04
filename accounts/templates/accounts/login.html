@@ -1,0 +1,88 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+    <h1> Log in: </h1>
+    <form class = "site-form" id = "loginpage" action="{% url 'accounts:login' %}" method="post"> 
+        {% csrf_token %} <!-- token to send to the server when teh form is sent so that the server knows the data is coming form the application-->
+        {{ form }}
+        <input type="submit" id = "loginbutton" value = "Log in">
+    </form>
+
+ <div class="birdcontainer">
+        <!--Sun-->
+        <div id="sun"></div>
+
+        <section id="bird-wrapper">
+            <!--The bird-->
+            <section id="bird">
+                <div class="body">
+                    <div class="crest">
+                        <span class="crest-1"></span>
+                        <span class="crest-2"></span>
+                    </div>
+                    <div class="head">
+                        <span class="eye"></span>
+                        <div class="mouth">
+                            <span class="peak-top"></span>
+                            <span class="peak-bottom"></span>
+                            <span class="nouse"></span>
+                            <div class="fish">
+                                <div class="fin-top"></div>
+                                <span class="body-left"></span>
+                                <span class="body-right"></span>
+                                <div class="fin-bottom"></div>
+                            </div>
+                        </div>
+                        <div class="head-lines">
+                            <span class="head-line-1"></span>
+                            <span class="head-line-2"></span>
+                        </div>
+                    </div>
+                    <div class="chest"></div>
+                    <div class="feathers">
+                        <span class="feather-1"></span>
+                        <span class="feather-2"></span>
+                        <span class="feather-3"></span>
+                    </div>
+                    <div class="wings">
+                        <div class="wing-dots">
+                            <div class="small dots-container">
+                                <span class="small"></span>
+                                <span class="small"></span>
+                                <span class="small"></span>
+                            </div>
+                        <div class="big-dots-container">
+                            <span class="big"></span>
+                            <span class="big"></span>
+                            <span class="big"></span>
+                            <span class="big"></span>
+                        </div>
+                        </div>
+                    </div>
+
+                    <div class="legs"></div>
+                    <div class="feet">
+                        <div class="toes"></div>
+                    </div>
+                </div>
+            </section>
+
+            <!--Rock-->
+            <div id="big-rock">
+                <div class="rock-1"></div>
+                <div class="rock-2"></div>
+                <div class="rock-3"></div>
+
+                <!--Rock grass-->
+                <span class="rock-grass grass-1 left"></span>
+                <span class="rock-grass grass-2 left"></span>
+                <span class="rock-grass grass-3 left"></span>
+                <span class="rock-grass grass-1 right"></span>
+                <span class="rock-grass grass-2 right"></span>
+                <span class="rock-grass grass-3 right"></span>
+            </div>
+        </section>
+        <span class="grass"></span>
+    </div>
+
+{% endblock %}

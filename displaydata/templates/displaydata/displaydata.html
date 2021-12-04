@@ -1,0 +1,48 @@
+{% extends 'base_layout.html' %}
+{% load static %}
+{% block content %}
+
+<head>
+ <title> See some data! </title>
+
+ </head>
+ <body>
+ <h1> What data would you like to see today, {{ user.username }}?</h1>
+ <div>
+    You can pick muiltiple species, countries and counties.
+
+   </div>
+ <div>
+
+ </div>
+ <div class = "display-data">
+   <h1>
+   <form class = "site-form" id = "displaydataform" data-counties-url = "{% url 'displaydata:ajax_load_counties' %}" action = "{% url 'displaydata:displaydata' %}" method ="post" enctype= "multipart/form-data">
+      {% csrf_token %} <!--security measure token-->
+      {% for field in form %}
+         <div class = "fieldwrapper">
+           
+            {% comment %} {{field.errors}} {% endcomment %}
+            {{field.label_tag }}
+            <p class = "formfield">
+            {{field }}
+            </p>
+         </div>
+         {% endfor %}
+
+   </form>
+      <button type = "button" id = "bargraph" name="bargraph"> Show me overall species numbers</button> 
+      <button type = "button" id = "linegraph" name="linegraph"> Show me change in species numbers over time </button> 
+      <a href = {% url 'displaydata:export' %}><button> Download data </button></a>
+   </h1>
+</div>
+</h1>
+   <div id="d3-container" class = "d3container">
+   </div>
+   <div id ="canvas" class ="canvas"> 
+   </div> 
+
+<script src="{% static 'js/filter.js' %}"></script> 
+<script src="{% static 'js/bargraph.js' %}">  </script>
+<script src="{% static 'js/linegraph.js' %}"> </script>
+{% endblock %}

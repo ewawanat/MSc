@@ -1,0 +1,65 @@
+{% extends 'base_layout.html' %}
+
+{% block content %}
+<!-- the loop below will probably not be needed in the end as we may end up not using names displayed  
+ {% for species in species %}
+    <h4><a href = "#"> {{ species.name }} </a> </h4>
+ {% endfor %}
+-->
+<body>
+ <h1 class = "welcome"> Hi {{ user.username }}! 
+</h1>
+<div> <h1> You can enter your data here. <h1>
+</div> 
+<div>
+   Photo is optional.
+</div>
+   <h1>
+   <form class = "site-form" id = "enterdataform" method ="post" data-counties-url = "{% url 'enterdata:ajax_load_counties' %}" enctype= "multipart/form-data">
+      {% csrf_token %} <!--security measure token-->
+     {% for field in form %}
+         <div class = "fieldwrapper">
+            {% comment %} {{field.errors}} {% endcomment %}
+            {{field.label_tag }}
+             <p class = "fieldsinform">
+            {{field }}
+            </p>
+         </div>
+         {% endfor %}
+      <input type = "submit" id ="submit-button" name="submit-button" value= "Submit my data" href="submitted.html"/>
+   </form> 
+   </h1>
+
+<h1 color = darkblue> 
+<a href={% url 'displaydata:displaydata' %}>Show me some data! </a>
+</h1>
+
+</body>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
+   $("#id_in_country").change(function () {
+         const url = $("#enterdataform").attr("data-counties-url");  // get the url of the `load_counties` view
+         const countryId = $(this).val();  // get the selected country ID from the HTML input
+         console.log(url);
+         console.log(countryId);
+         $.ajax({                       // initialize an AJAX request
+            url: url,                    // set the url of the request (= /enterdata/ajax/load-counties/ )
+            data: {
+                'country_id': countryId       // add the country id to the GET parameters
+            },
+            success: function (data) {  
+               console.log(data);
+               var list = document.getElementById("id_in_county");
+               console.log(list);
+               list.innerHTML = ""; //clear all 
+               let html_data = '<option value="">---------</option>';
+               data.forEach(function (county) {
+                  console.log(county);
+                  html_data +=`<option value = "${county.name}"> ${county.name} </option>`
+               });
+               list.innerHTML = html_data; 
+            }
+        });
+   });
+</script>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+ <head>
+    <meta charset = "utf-8">
+    <meta name = "viewport" content = "width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title> BirdApp </title>
+    <link rel="stylesheet" href = "{% static 'kwakstyle.css' %}">
+</head>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"> </script>
+<script src="https://d3js.org/d3.v5.js"></script>
+<body>
+    <header>            
+        <nav width = 100%>
+        <div id = "logo" width = 100%>
+            <img src = "{% static 'bird_blue.png' %}" style = "position: absolute; left: 0;" alt = "logo" width="110" height="110">
+            {% if user.is_authenticated %}
+                    <form class = "logout-link" action = "{% url 'accounts:logout' %}" method = "post">
+                        {% csrf_token %} 
+                        <button type = "submit"> Log out </button>
+                    </form>
+                    {% endif %}
+        </div>
+        <div width = 100%>
+            {% if user.is_authenticated %}
+                <li><a href = "{% url 'enterdata:category' %}"> Add some data! </a></li>
+                <li><a href = "{% url 'displaydata:category' %}"> Show me some data! </a></li>
+            {% else %}
+                <li><a href = "{% url 'accounts:login' %}">Login</a></li>
+                <li><a href = "{% url 'accounts:signup' %}">Sign up</a></li>
+            {% endif %}
+        </div>
+        </nav>
+    </header>
+    <footer>
+    </footer>
+    {% block content %}
+    {% endblock %}
+</body>
+</html>
