@@ -15,6 +15,10 @@ h1, h2, h3, h4, h5 {
     margin: 0;
 }
 
+.padding {
+    padding-top: 50px;
+}
+
 header{
     background-color: #7a92da;
     padding: 20px 0;

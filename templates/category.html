@@ -10,12 +10,14 @@
 </header>
 
 <div class = "welcome-message">
-    <h2>You can collect real bird data and get to see the data on some cool graphs! 
-    <div> Additionally:
-    </div>
+    <h2>You can collect real plant or animal data and get to see the data on some cool graphs! 
+    <div class = "padding"> Additionally:
         <li> you will be connected to a real database with data collected by thousands of people around the world </li> 
         <li> you will help research </li> 
-        <li> you will expand your bird knowledge </li> 
+        <li> you will expand your plant and animal knowledge </li> 
+    </div>
+    <div class = "padding"> 
+    Choose which plant of animal you want to collect or see data about from the list below:
     </h2>
 </div>
 <div>
@@ -29,7 +31,9 @@
     {% if display %}
     <ul>
         {% for category in categories %}
-            <li><a href="{% url 'displaydata:displaydata' category.slug %}">{{ category.name }}</a></li>
+            <div class = "category">
+            <a href="{% url 'displaydata:displaydata' category.slug %}"><button> {{ category.name }}s </button></a>
+            </div>
         {% endfor %}
     </ul>
     {% endif %}

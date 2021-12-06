@@ -25,9 +25,9 @@
         </div>
         <div width = 100%>
             {% if user.is_authenticated %}
-                <li><a href = "{% url 'enterdata:category' %}"> Add some data! </a></li>
+                {% comment %} <li><a href = "{% url 'enterdata:category' %}"> Add some data! </a></li>
                 <li><a href = "{% url 'displaydata:category' %}"> Show me some data! </a></li>
-            {% else %}
+            {% else %} {% endcomment %}
                 <li><a href = "{% url 'accounts:login' %}">Login</a></li>
                 <li><a href = "{% url 'accounts:signup' %}">Sign up</a></li>
             {% endif %}
