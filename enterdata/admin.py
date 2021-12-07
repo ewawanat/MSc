@@ -3,7 +3,7 @@ from .models import Sighting, Species, Country, County, Category
 
 @admin.register(Species) #registering the species model on the admin site
 class SpeciesAdmin(admin.ModelAdmin):
-    name = ('name', 'id')
+    name = ('name', 'id', 'category')
     ordering = ('name',)
 
 @admin.register(County)

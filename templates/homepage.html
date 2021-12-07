@@ -16,15 +16,17 @@
         <li> you will help research </li> 
         <li> you will expand your plant and animal knowledge </li> 
     </div>
-    <div class = "padding"> 
-    Choose which plant of animal you want to collect or see data about from the list below:
     </h2>
-</div>
 <div>
 <ul>
     {% if user.is_authenticated %}
+    <h2>
+    <div class = "padding"> 
+        Choose which plant or animal you want to collect or see data about from the list below:
+    </div>
+    </h2>
         {% for category in categories %}
-            <li><a href="{% url 'category' category.slug %}">{{ category.name }}</a></li>
+            <button><a href="{% url 'category' category.slug %}">{{ category.name }}</a></button>
         {% endfor %}
     {% endif %}
 </ul> 
