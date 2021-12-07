@@ -25,6 +25,8 @@
         </div>
         <div width = 100%>
             {% if user.is_authenticated %}
+                <li><a href = "{% url 'enterdata:enterdata' %}"> Add some data! </a></li>
+                <li><a href = "{% url 'displaydata:displaydata' %}"> Show me some data! </a></li>
             {% else %}
                 <li><a href = "{% url 'accounts:login' %}">Login</a></li>
                 <li><a href = "{% url 'accounts:signup' %}">Sign up</a></li>

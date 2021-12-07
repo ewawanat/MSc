@@ -5,7 +5,7 @@ app_name = 'enterdata'
 
 urlpatterns = [
     path('', views.categoryChoice, name = 'category'),
-    path('<slug:category_name_slug>/enterdata', views.enterdata, name ='enterdata'),
+    path('enterdata', views.enterdata, name ='enterdata'),
     path('enterdata', views.enterdata, name ='enterdata'),
     path('submitted', views.submitted, name = 'submitted'),
 

@@ -1,4 +1,4 @@
-{% extends 'base_layout.html' %}
+{% extends 'base_layout2.html' %}
 {% load static %}
 {% block content %}
 
@@ -10,8 +10,11 @@
  <h1> What data would you like to see today, {{ user.username }}?</h1>
  <div>
     You can pick muiltiple species, countries and counties.
-
    </div>
+
+   <p>
+    In this version of the app, for viewing change in species numbers over time, it is unadvisable to pick more than 9 species at a time as the colours representing each species will become confusing.
+   </p>
  <div>
 
  </div>

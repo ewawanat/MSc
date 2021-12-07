@@ -21,22 +21,8 @@
     </h2>
 </div>
 <div>
-    {% if add %}
-    <ul>
-        {% for category in categories %}
-            <li><a href="{% url 'enterdata:enterdata' category.slug %}">{{ category.name }}</a></li>
-        {% endfor %}
-    </ul> 
-    {% endif %}
-    {% if display %}
-    <ul>
-        {% for category in categories %}
-            <div class = "category">
-            <a href="{% url 'displaydata:displaydata' category.slug %}"><button> {{ category.name }}s </button></a>
-            </div>
-        {% endfor %}
-    </ul>
-    {% endif %}
+    <li><a href = "{% url 'enterdata:enterdata' %}"> Add some data! </a></li>
+    <li><a href = "{% url 'displaydata:displaydata' %}"> Show me some data! </a></li>
 </div>
 
 {% endblock %}

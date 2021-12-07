@@ -1,7 +1,9 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login, logout
+from django.views.decorators.csrf import csrf_exempt
 
+@csrf_exempt
 def signup_view(request):
     if request.method =='POST':
         #to validate the data from the signup form:
@@ -11,7 +13,7 @@ def signup_view(request):
             user = form.save() # form.save() returns the user, so is saved in user variable
             #log the user in:
             login(request, user)
-            return redirect('enterdata:enterdata')
+            return redirect('homepage')
     else:
         form = UserCreationForm() #creating a new instance of the user form    
     return render(request, 'accounts/signup.html', {'form': form}) #third parameter passed is the form which is then sent to the template
@@ -24,7 +26,7 @@ def login_view(request):
             #log in the user
             user = form.get_user() #get the user name
             login(request, user)
-            return redirect('enterdata:enterdata')
+            return redirect('homepage')
 
     else:
         #for when the user clicks on the login link (GET request)

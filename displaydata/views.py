@@ -8,22 +8,20 @@ from . import forms
 import json
 from django.http.response import HttpResponse, JsonResponse
 import csv
+import ecologysurvey.views 
 
-@login_required(login_url="/accounts/login/") #this is so that the user can only add data if they are logged in, if not logged in, redirect to login page
-def categoryChoice(request): 
-    categories = Category.objects.all()
-    context_dict = {}
-    context_dict['categories'] = []
-    for category in categories: 
-        context_dict['categories'].append(category)
-    display = True
-    context_dict['display'] = display
-    return render(request, 'category.html', context = context_dict)
+# @login_required(login_url="/accounts/login/") #this is so that the user can only add data if they are logged in, if not logged in, redirect to login page
+# def categoryChoice(request, category_name_slug): 
+#     print(category_name_slug)
+#     return render(request, 'category.html')
  
 @login_required(login_url="/accounts/login/") #this is so that the user can only add data if they are logged in, if not logged in, redirect to login page
-def displayData(request, category_name_slug):
+def displayData(request):
+    # global chosen_category
+    # print(chosen_category)
+    chosen_category = ecologysurvey.views.chosen_category
     context_dict = {}
-    category = {'name': category_name_slug}
+    category = {'name': chosen_category}
     display_form = forms.DisplayData(category)
     context_dict['form'] = display_form
 
@@ -95,7 +93,7 @@ def load_counties(request):
 
 
 @csrf_exempt
-def create_bargraph(request, category_name_slug):
+def create_bargraph(request):
     print("We are HEREEEEEEEEE")
     print(request.POST)
     selected_species = request.POST.getlist('species[]')
@@ -146,7 +144,7 @@ def create_bargraph(request, category_name_slug):
     return JsonResponse((list_dict), safe=False)
 
 @csrf_exempt
-def create_linegraph(request, category_name_slug):
+def create_linegraph(request):
 
     selected_species = request.POST.getlist('species[]')
     print("REQUEST POST")

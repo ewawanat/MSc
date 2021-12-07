@@ -1,4 +1,6 @@
 from django import forms
+
+from enterdata.models import Category
 from . import models
 from django.utils.datastructures import MultiValueDictKeyError
 
@@ -18,8 +20,12 @@ class DisplayData(forms.ModelForm):
         try:
             self.name = args[0]['name']
             print(self.name)
+            category = Category.objects.get(name = self.name)
             print(" HEREEEEEE ")
             super(DisplayData, self).__init__(*args, **kwargs)
-            self.fields['species_name'].queryset = models.Species.objects.filter(category = self.name)
+            self.fields['species_name'].queryset = models.Species.objects.filter(category = category)
+            print('self.fields')
+            print(self.fields)
+
         except MultiValueDictKeyError:
             super(DisplayData, self).__init__(*args, **kwargs)

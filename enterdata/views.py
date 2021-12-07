@@ -4,6 +4,8 @@ from .models import Category, County, Species
 from django.contrib.auth.decorators import login_required
 from . import forms
 from django.http.response import JsonResponse
+import ecologysurvey.views
+
 
 @login_required(login_url="/accounts/login/") #this is so that the user can only add data if they are logged in, if not logged in, redirect to login page
 def categoryChoice(request): 
@@ -17,9 +19,10 @@ def categoryChoice(request):
     return render(request, 'category.html', context = context_dict)
 
 @login_required(login_url="/accounts/login/") #this is so that the user can only add data if they are logged in, if not logged in, redirect to login page
-def enterdata(request, category_name_slug): 
+def enterdata(request): 
     #species = Species.objects.all().order_by('name')
-    
+    chosen_category = ecologysurvey.views.chosen_category
+
     if request.method == 'POST':
         form = forms.EnterData(request.POST, request.FILES) #to validate the data against the model form
         #to check if the user entered data properly: 
@@ -31,7 +34,7 @@ def enterdata(request, category_name_slug):
             #redirect to somewhere
             return redirect('enterdata:submitted')
     else:
-        category = {'name': category_name_slug}
+        category = {'name': chosen_category }
         form = forms.EnterData(category)
 
     return render(request, 'enterdata/enterdata.html', {'form':form}) 
