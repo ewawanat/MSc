@@ -1,5 +1,5 @@
 {% extends 'base_layout2.html' %}
-
+{% load static %}
 {% block content %}
 <!-- the loop below will probably not be needed in the end as we may end up not using names displayed  
  {% for species in species %}
@@ -18,15 +18,15 @@
    <form class = "site-form" id = "enterdataform" method ="post" data-counties-url = "{% url 'enterdata:ajax_load_counties' %}" enctype= "multipart/form-data">
       {% csrf_token %} <!--security measure token-->
      {% for field in form %}
-         <div class = "fieldwrapper">
-            {% comment %} {{field.errors}} {% endcomment %}
+         <div class = "enterdata-field-wrapper">
             {{field.label_tag }}
-             <p class = "fieldsinform">
+             <span class = "fieldsinform">
             {{field }}
-            </p>
+             </span>
          </div>
          {% endfor %}
-      <input type = "submit" id ="submit-button" name="submit-button" value= "Submit my data" href="submitted.html"/>
+      {% comment %} <input type = "submit" id ="submit-button" name="submit-button" value= "Submit my data" href="submitted.html"/> {% endcomment %}
+      <button type = "submit" id ="submit-button" name="submit-button" href="submitted.html" style = "width: 300px; margin: 2rem 0;"> Submit my data </button>
    </form> 
    </h1>
 
@@ -36,30 +36,6 @@
 
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-<script>
-   $("#id_in_country").change(function () {
-         const url = $("#enterdataform").attr("data-counties-url");  // get the url of the `load_counties` view
-         const countryId = $(this).val();  // get the selected country ID from the HTML input
-         console.log(url);
-         console.log(countryId);
-         $.ajax({                       // initialize an AJAX request
-            url: url,                    // set the url of the request (= /enterdata/ajax/load-counties/ )
-            data: {
-                'country_id': countryId       // add the country id to the GET parameters
-            },
-            success: function (data) {  
-               console.log(data);
-               var list = document.getElementById("id_in_county");
-               console.log(list);
-               list.innerHTML = ""; //clear all 
-               let html_data = '<option value="">---------</option>';
-               data.forEach(function (county) {
-                  console.log(county);
-                  html_data +=`<option value = "${county.name}"> ${county.name} </option>`
-               });
-               list.innerHTML = html_data; 
-            }
-        });
-   });
-</script>
+<script src="{% static 'js/filter_enterdata.js' %}"></script> 
+
 {% endblock %}

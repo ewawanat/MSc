@@ -17,70 +17,85 @@ $(document).ready(function() {
              const graphWidth = 560 - (margin.left + margin.right);
              const graphHeight = 400 - (margin.top + margin.bottom);
              const circleRadius = 4;
-
+            
+             //create space for the graph and axes etc:
              const svg = d3.select('.canvas')
                 .append('svg')
                   .attr('width', graphWidth + 400 + margin.left + margin.right)
                   .attr('height', graphHeight + margin.top + margin.bottom);
 
+            //set dimensions of graph (with and height)
              const graph = svg.append('g')
                 .attr('width', graphWidth)
                 .attr('height', graphHeight)
                 .attr('transform', `translate(${margin.left}, ${margin.top})`);
                
-
+            // range of x-axis:
              const x = d3.scaleLinear().range([0, graphWidth]);
+            // range of y-axis:
              const y = d3.scaleLinear().range([graphHeight, 0]);
 
+             //appending x-axis to the graph
              const xAxisGroup = graph.append('g')
                 .attr('class', 'x-axis')
                 .attr('transform', `translate(${0}, ${graphHeight})`);
-
+             
+                //appending y-axis to the graph
              const yAxisGroup = graph.append('g')
                 .attr('class', 'y-axis');
 
 
-
+            // create a line:
              const line = d3.line()
                 .x(function(d) {
-                   return x(d.month)
+                   return x(d.month) // month is on x-axis
                 })
                 .y(function(d) {
-                   return y(d.frequency)});
+                   return y(d.frequency)}); //frequency is on y-axis
 
+            // dotted lines for showing connection between x and y axes
              const dottedLines = graph.append('g')
                 .attr('class','lines')
                 .style('opacity', 0);
 
+            // dotted line coming from x axis
              const xDottedLine = dottedLines.append('line')
                 .attr('stroke', 'royalblue')
                 .attr('stroke-width', 1)
                 .attr('stroke-dasharray', 4)
                 .attr('fill', 'royalblue');
 
+            // dotted line coming from y axis
              const yDottedLine = dottedLines.append('line')
                 .attr('stroke', 'royalblue')
                 .attr('stroke-width', 1)
                 .attr('stroke-dasharray', 4)
                 .attr('fill', 'royalblue');
-
+            
+            //set colours for lines 
              const colour = d3.scaleOrdinal(d3['schemeSet1']);
 
+             //array data contains all information for one species
              var array_data = [];
+
+             //all data contains info for all species
              var all_data = [];
              
+            //set containing all unique circles representing frequency 
             const frequencySet = new Set() 
 
+            //push data from python code to all_data:
             data.line_graph_list.forEach(d => {
                d.forEach(index => {
                   all_data.push(index);
                });
             });
 
+            //setting x and y domain (as months and frequency respectively)
             x.domain(d3.extent(data.months, d => d));
             y.domain([0, d3.max(all_data, d => d.frequency)]);   
             
-
+            //creating the path of the graph with lines
              data.line_graph_list.forEach(d => {
                 const path = graph.append('path');
                 array_data = [];
@@ -89,23 +104,25 @@ $(document).ready(function() {
                       array_data.push(index);
                    });
  
-               
+               //sorting the data by month
                array_data.sort((a,b) => a.month - b.month);
                 
-                console.log('array_data');
-                console.log(array_data);
+               //  console.log('array_data');
+               //  console.log(array_data);
 
+               // setting fill and colours of the lines:
                 path.data([array_data])
                    .attr("fill", 'none')
                    .attr("stroke", d => {
                       console.log("DDDDDDs");
                       console.log(d);   
-                      return colour(d[0].species_name)})
+                      return colour(d[0].species_name)}) // setting colour to be different depending on species name
                    .attr('stroke-width', 2)
                    .attr('d', line);
 
                 });
 
+                // creating circles for intersection of x and y 
                 const circles = graph.selectAll('circle')
                    .data(all_data);
 
@@ -114,6 +131,7 @@ $(document).ready(function() {
                    .attr('cy', d => y(d.frequency))
                    .attr('fill', 'royalblue');
 
+               //to display all circles in the graph:
                 circles.enter()
                    .append('circle')
                          .attr('r', circleRadius)
@@ -121,6 +139,7 @@ $(document).ready(function() {
                          .attr('cy', d => y(d.frequency))
                          .attr('fill', 'royalblue');
 
+               // to make circles appear larger on click
                 graph.selectAll('circle')
                    .on('mouseover', (d,i,n) => {
                          d3.select(n[i])
@@ -128,6 +147,7 @@ $(document).ready(function() {
                                .attr('r', circleRadius*2)
                                .attr('fill', 'royalblue')
 
+               // to make x and y dotted lines appear on click:
                          xDottedLine
                             .attr('x1', x(d.month))
                             .attr('x2', x(d.month))
@@ -142,6 +162,7 @@ $(document).ready(function() {
 
                          dottedLines.style('opacity', 1);
                    })
+                   //make them disappear when unclicked
                    .on('mouseleave', (d,i,n) => {
                          d3.select(n[i])
                             .transition().duration(500)
@@ -160,7 +181,7 @@ $(document).ready(function() {
              // console.log("d")
              // console.log(d)
 
-
+                   //setting up x axis with months chosen:
                 const xAxis = d3.axisBottom(x)
                    .ticks(data.months.length)
                    .tickFormat(d => {
@@ -203,19 +224,22 @@ $(document).ready(function() {
                         } 
                 });
    
+                //formatting ticks for y axis to be unique
                 const yAxis = d3.axisLeft(y)
                    .ticks(frequencySet.size)
                    .tickFormat(d3.format("d"));
 
-                console.log(frequencySet);
+               //  console.log(frequencySet);
                 
                 xAxisGroup.call(xAxis);
                 yAxisGroup.call(yAxis);
 
+                //settings for x-axis text 
                 xAxisGroup.selectAll('text')
                    .attr('transform', 'rotate(-40)')
                    .attr('text-anchor', 'end');
-
+               
+                   //setting up legends
                    var legend = svg.selectAll('.legend')
                    .data(colour.domain())
                    .enter()

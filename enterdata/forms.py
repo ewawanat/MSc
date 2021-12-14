@@ -19,10 +19,7 @@ class EnterData(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         try:
             self.name = args[0]['name']
-            print(self.name)
-            category = models.Category.objects.get(name = self.name)
-            print(" HEREEEEEE ")
-            print(category)
+            # print(self.name)
             super(EnterData, self).__init__(*args, **kwargs)
             self.fields['species'].queryset = models.Species.objects.filter(category = self.name)
         except MultiValueDictKeyError:
