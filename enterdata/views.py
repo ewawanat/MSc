@@ -1,6 +1,6 @@
 from django import forms
 from django.shortcuts import redirect, render
-from .models import Category, County, Species
+from .models import Category, County
 from django.contrib.auth.decorators import login_required
 from . import forms
 from django.http.response import JsonResponse
@@ -31,14 +31,12 @@ def enterdata(request):
             instance_of_data_entry = form.save(commit=False) #created an instance of an article but don't commit to saving it yet
             instance_of_data_entry.user = request.user # to associate the person who collected the data with the logged in user   
             instance_of_data_entry.save()
-            #redirect to somewhere
             return redirect('enterdata:submitted')
     else:
         category = {'name': chosen_category }
         form = forms.EnterData(category)
 
     return render(request, 'enterdata/enterdata.html', {'form':form}) 
-    # add {'species':species} if want list of species on the page
         
 #@login_required(login_url="/accounts/login/") #this is so that the user can only add data if they are logged in, if not logged in, redirect to login page
 def submitted(request):

@@ -15,32 +15,27 @@
     In this version of the app, for viewing change in species numbers over time, it is unadvisable to pick more than 9 species at a time as the colours representing each species will become confusing.
    </p>
  <div>
-
  </div>
- <div class = "display-data">
-   <h1>
+ <div class = "display-data" style = "padding-bottom: 2rem;">
    <form class = "site-form" id = "displaydataform" data-counties-url = "{% url 'displaydata:ajax_load_counties' %}" action = "{% url 'displaydata:displaydata' %}" method ="post" enctype= "multipart/form-data">
       {% csrf_token %} <!--security measure token-->
       {% for field in form %}
-         <div class = "fieldwrapper">
-           
-            {% comment %} {{field.errors}} {% endcomment %}
+         <div class = "displaydata-field-wrapper">
             {{field.label_tag }}
-            <p class = "formfield">
+            <span class = "formfield">
             {{field }}
-            </p>
+            </span>
          </div>
          {% endfor %}
-
    </form>
+
       <button type = "button" id = "bargraph" name="bargraph"> Show me overall species numbers</button> 
       <button type = "button" id = "linegraph" name="linegraph"> Show me change in species numbers over time </button> 
       <a href = {% url 'displaydata:export' %}><button> Download data </button></a>
-   </h1>
 </div>
 </h1>
-   <div id="d3-container" class = "d3container">
-   </div>
+   {% comment %} <div id="d3-container" class = "d3-container" style = "padding-bottom: 3rem;">
+   </div> {% endcomment %}
    <div id ="canvas" class ="canvas"> 
    </div> 
 

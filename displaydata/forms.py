@@ -19,13 +19,12 @@ class DisplayData(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         try:
             self.name = args[0]['name']
-            print(self.name)
+            # print(self.name)
             category = Category.objects.get(name = self.name)
-            print(" HEREEEEEE ")
             super(DisplayData, self).__init__(*args, **kwargs)
             self.fields['species_name'].queryset = models.Species.objects.filter(category = category)
-            print('self.fields')
-            print(self.fields)
+            # print('self.fields')
+            # print(self.fields)
 
         except MultiValueDictKeyError:
             super(DisplayData, self).__init__(*args, **kwargs)
