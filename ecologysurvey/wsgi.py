@@ -1,5 +1,5 @@
 """
-WSGI config for birdapp project.
+WSGI config for ecology survey project.
 
 It exposes the WSGI callable as a module-level variable named ``application``.
 
